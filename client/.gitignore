@@ -1,0 +1,25 @@
+# Node / Vite / React
+node_modules/
+dist/
+build/
+.cache/
+.next/
+.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Env / config
+.env
+.env.*
+!.env.example
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs
+logs/
+*.log

@@ -1,0 +1,197 @@
+/* Sayfa arka planı */
+:root {
+  --bg: #fdeeed;        /* çok açık pembe */
+  --card-bg: #ffeceb;   /* kart içi daha açık pembe */
+  --ink: #1f1f1f;       /* koyu yazı */
+  --blue: #a7cbff;      /* buton mavi */
+  --blue-hover: #95beff;
+  --stroke: #2c2c2c;    /* kalem gibi koyu kenar */
+
+  /* preset aktif zeminleri */
+  --preset-cok-kisa: #ffdfe6;
+  --preset-kisa:     #ffeccc;
+  --preset-orta:     #e8f2ff;
+  --preset-uzun:     #e6ffe7;
+  --preset-cok-uzun: #efe7ff;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+/* Kartı ortala */
+.page {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+/* Büyük kart kutusu */
+.card {
+  width: min(1100px, 96vw);
+  min-height: 70vh;
+  background: var(--card-bg);
+  border: 2.5px solid var(--stroke);
+  border-radius: 28px;
+  padding: clamp(16px, 4vw, 40px);
+  box-shadow:
+    0 3px 0 0 #00000010,
+    0 16px 40px rgba(0,0,0,0.08);
+  position: relative;
+}
+
+/* Başlık */
+.title {
+  text-align: center;
+  margin: 24px 0 26px;
+  font-size: clamp(20px, 3vw, 28px);
+  letter-spacing: 0.4px;
+  font-weight: 700;
+}
+
+/* --------- Segment butonları --------- */
+.seg {
+  width: min(850px, 90%);
+  margin: 0 auto 8px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.seg-btn {
+  padding: 12px 16px;
+  height: 48px;
+  min-width: 112px;
+  border: 2.5px solid var(--stroke);
+  border-radius: 14px;
+  background: #ffffff;
+  color: var(--ink);
+  font-weight: 900;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+  transition: transform 0.08s ease, background 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 3px 0 #00000010;
+  text-transform: uppercase;
+}
+.seg-btn:hover { transform: translateY(-1px) scale(1.01); }
+.seg-btn:active { transform: translateY(0) scale(1.0); }
+.seg-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.seg-btn.active {
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  transform: translateY(-1px);
+}
+
+/* aktifken preset bazlı renk */
+.seg-btn.active.preset-cok-kisa { background: var(--preset-cok-kisa); }
+.seg-btn.active.preset-kisa     { background: var(--preset-kisa); }
+.seg-btn.active.preset-orta     { background: var(--preset-orta); }
+.seg-btn.active.preset-uzun     { background: var(--preset-uzun); }
+.seg-btn.active.preset-cok-uzun { background: var(--preset-cok-uzun); }
+
+/* küçük açıklama */
+.seg-hint {
+  width: min(850px, 90%);
+  margin: 0 auto 12px;
+  text-align: center;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+/* --------- Form --------- */
+.form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  width: min(850px, 90%);
+  margin: 4px auto 0;
+}
+
+/* Girdi */
+.input {
+  height: 56px;
+  padding: 0 18px;
+  background: #fff;
+  border: 2px solid #c6c6c6;
+  border-radius: 14px;
+  outline: none;
+  font-size: 16px;
+  color: var(--ink);
+  box-shadow: inset 0 2px 0 #0000000a;
+}
+.input::placeholder { color: #9aa3ad; }
+
+/* Buton */
+.btn {
+  height: 56px;
+  padding: 0 22px;
+  border: 2px solid var(--stroke);
+  border-radius: 14px;
+  background: var(--blue);
+  color: #0b1a2b;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: transform 0.08s ease, background 0.15s ease;
+  box-shadow: 0 2px 0 #00000010;
+}
+.btn:hover { background: var(--blue-hover); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Hata bildirimi */
+.alert {
+  width: min(850px, 90%);
+  margin: 18px auto 0;
+  padding: 12px 14px;
+  border: 2px solid #6b1a1a;
+  border-radius: 12px;
+  background: #ffe0e0;
+  color: #5c1515;
+  font-weight: 600;
+}
+
+/* Sonuç alanı */
+.result {
+  width: min(850px, 90%);
+  margin: 40px auto 0;
+  padding: 18px 20px;
+  border: 2px solid var(--stroke);
+  border-radius: 16px;
+  background: #fffdfa;
+  box-shadow: 0 2px 0 #0000000a;
+}
+.result-title {
+  margin: 4px 0 12px;
+  font-size: 20px;
+}
+.result-text {
+  margin: 0;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  font-size: 16px;
+}
+
+/* Alt yazı */
+.footer {
+  position: absolute;
+  left: 0; right: 0; bottom: 14px;
+  text-align: center;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+/* Küçük ekranlar */
+@media (max-width: 640px) {
+  .form { grid-template-columns: 1fr; }
+  .btn { width: 100%; }
+}
