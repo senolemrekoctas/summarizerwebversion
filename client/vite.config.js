@@ -1,7 +1,9 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
+// REPO ADINI KENDİNE GÖRE AYARLA
 export default defineConfig({
+  base: '/summarizerwebversion/',
   plugins: [react()],
+  server: { port: 5173 }
 })
