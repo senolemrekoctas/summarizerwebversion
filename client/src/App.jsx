@@ -1,44 +1,49 @@
 import React, { useState } from "react";
 
-const API = import.meta.env.VITE_API || "http://localhost:3000";
+const API_URL =
+  (import.meta.env && import.meta.env.VITE_API) ||
+  (location.hostname === "localhost"
+    ? "http://localhost:3000"
+    : "https://summarizerwebversion.onrender.com");
 
-// 3 preset: kısa / orta / uzun
+if (import.meta.env?.DEV) console.log("API_URL ->", API_URL);
+
 const LENGTH_PRESETS = [
-  { key: "short",  label: "Kısa"  },
-  { key: "medium", label: "Orta"  },
-  { key: "long",   label: "Uzun"  },
+  { key: "short",  label: "Short" },
+  { key: "medium", label: "Medium" },
+  { key: "long",   label: "Long"  },
 ];
 
 export default function App() {
   const [url, setUrl] = useState("");
+  const [lengthKey, setLengthKey] = useState("medium");
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
   const [error, setError] = useState("");
-  const [lengthKey, setLengthKey] = useState("medium"); // varsayılan
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError(""); setTitle(""); setSummary("");
 
-    if (!url.trim()) {
-      setError("Lütfen linki girin.");
-      return;
-    }
+    let u = url.trim();
+    if (!u) { setError("Lütfen linki girin."); return; }
+    if (!/^https?:\/\//i.test(u)) u = "https://" + u;
 
-    setLoading(true);
     try {
-      const res = await fetch(`${API}/api/extractive`, {
+      setLoading(true);
+      const res = await fetch(`${API_URL}/api/summarize`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url, length: lengthKey }), // << yalnızca length
+        body: JSON.stringify({ url: u, length: lengthKey }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "İstek başarısız.");
       setTitle(data.title || "");
       setSummary(data.summary || "");
-    } catch (e) {
-      setError(e.message);
+    } catch (err) {
+      console.error(err);
+      setError(err.message || String(err));
     } finally {
       setLoading(false);
     }
@@ -49,7 +54,6 @@ export default function App() {
       <div className="card">
         <h1 className="title">Web Ozetleyiciye Hosgeldiniz</h1>
 
-        {/* 3'lü seçenek */}
         <div className="seg" role="group" aria-label="Özet uzunluğu">
           {LENGTH_PRESETS.map((p) => (
             <button
@@ -83,7 +87,8 @@ export default function App() {
         {(title || summary) && (
           <div className="result">
             {title && <h2 className="result-title">{title}</h2>}
-            {summary && <p className="result-text">{summary}</p>}
+            {/* Liste modunda da paragraf gibi gelir; istersen burada \n'lere <li> yapabiliriz */}
+            {summary && <pre className="result-text" style={{ whiteSpace: "pre-wrap" }}>{summary}</pre>}
           </div>
         )}
 

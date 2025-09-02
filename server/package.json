@@ -1,11 +1,10 @@
 {
   "name": "summarizer-server",
-  "version": "1.0.0",
   "type": "module",
-  "main": "index.mjs",
+  "private": true,
   "scripts": {
     "dev": "node index.mjs",
-    "start": "NODE_ENV=production node index.mjs"
+    "start": "node index.mjs"
   },
   "dependencies": {
     "@mozilla/readability": "^0.5.0",
